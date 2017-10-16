@@ -9,9 +9,24 @@
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
-    "express": "~4.15.5",
+    "express": "^4.15.5",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
-  }
+    "natural": "^0.5.4",
+    "serve-favicon": "~2.4.5",
+    "twitter": "^1.7.1"
+  },
+  "description": "",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victoriasu/CLOUD2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victoriasu/CLOUD2/issues"
+  },
+  "homepage": "https://github.com/victoriasu/CLOUD2#readme"
 }
