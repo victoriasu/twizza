@@ -1,8 +1,66 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+h1 {
+    font-family: 'Encode Sans Semi Condensed', serif;
+    font-size: 60px;
 }
 
-a {
-  color: #00B7FF;
+body {
+    font-family: 'Encode Sans Semi Condensed', serif;
+    font-size: 24px;
+    margin: 20px;
+}
+
+p {
+    font-size: 16px;
+}
+
+/* SEARCH FIELD STYLES */
+.wrap {
+    float: center;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.searchTextInput {
+    margin: 0;
+    padding: 5px 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:14px;
+    color:#666;
+    border-top-left-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    border:1px solid #000000;
+    width: 30%;
+}
+.searchButton {
+    margin: 0;
+    padding: 5px 7px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight:bold;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: solid 1px #000000; border-right: solid 1px #000000;
+    background: #000000;
+    border-top-right-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    border-top-left-radius: 5px 5px;
+    border-bottom-left-radius: 5px 5px;
+}
+.searchButton:hover {
+    text-decoration: none;
+    background: #283747;
+}
+
+.searchButton::-moz-focus-inner {
+    border: 0;
 }
