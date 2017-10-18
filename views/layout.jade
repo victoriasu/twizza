@@ -12,7 +12,16 @@ html
         h1= title
         
         form(id='tfnewsearch')
-            input(type='text', id='searchField', class='searchTextInput', size='51', maxlength='50', value='')
-            input(id='searchButton', type='submit', value='SEARCH', class='searchButton')
+            .search_container
+                input(type='text', id='searchField', class='searchTextInput', size='51', maxlength='50', value='')
+                br
+                input(id='pos', type='radio', name='sentiment', value='positive')
+                label(for='pos') Positive tweets only
+                input(id='neg', type='radio', name='sentiment', value='negative')
+                label(for='neg') Negative tweets only
+                input(id='all', type='radio', name='sentiment', value='all', checked)
+                label(for='all') All tweets
+            .search_container
+                input(id='searchButton', type='submit', value='SEARCH', class='searchButton')
         
         block content
