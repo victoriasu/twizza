@@ -67,3 +67,12 @@ p {
 .searchButton::-moz-focus-inner {
     border: 0;
 }
+
+/* TWITTER RESULTS STYLE */
+.results_container {
+    float: left;
+    width: 40%;
+    max-width: 40%;
+    overflow-y: auto;
+    height: 700px;
+}

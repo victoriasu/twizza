@@ -4,6 +4,9 @@ var router = express.Router();
 var twitter = require('twitter');
 var config = require('./../config.json');
 
+var sentiment = require('sentiment');
+var twitterText = require('twitter-text');
+
 router.get('/:searchTerm', function(req, res, next) {
     var client = new twitter ({
         consumer_key: config.twitter_consumer_key,
@@ -26,10 +29,16 @@ router.get('/:searchTerm', function(req, res, next) {
                     +      '"></a>'
                     +  '</blockquote> '
                     +  '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+
+                    console.log(twitterText.extractMentions(tweets.statuses[i].text));
             }
             res.render('index', { twitterResults: str })
         }
     });
 });
+
+function removeLinks () {
+
+}
 
 module.exports = router;

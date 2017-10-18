@@ -13,8 +13,10 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
     "natural": "^0.5.4",
+    "sentiment": "^4.1.0",
     "serve-favicon": "~2.4.5",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "twitter-text": "^1.14.7"
   },
   "description": "",
   "main": "app.js",
