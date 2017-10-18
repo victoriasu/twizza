@@ -20,11 +20,28 @@ router.get('/:searchTerm', function(req, res, next) {
         access_token_secret: config.twitter_access_token_secret
     });
 
-    var search = 'https://api.twitter.com/1.1/search/tweets.json?q=url:'
-               + req.params.searchTerm;
-    
+    // var search = req.params.searchTerm;
+    // client.get('search/tweets', {q: search}, function(error, tweets, response) {  
+    //     if (!error) {
+    //         console.log(tweets.statuses.length);
+    //         for (var i = 0; i < tweets.statuses.length; i++) {
+    //             let text = tweets.statuses[i].text;
+    //             // Clean up text (remove mentions, hashtags and links)
+    //             tweets.statuses[i].clean_text = removeLinks (text);
+    //             // Get sentiment of cleaned text
+    //             tweets.statuses[i].sentiment_value = sentiment(tweets.statuses[i].clean_text).score;
+    //         }
+    //         // Call pos, neg, or all function
+    //         var embeddedStr = functionCalls[req.query.sentiment](tweets);
+    //         res.render('index', { twitterResults: embeddedStr })
+    //     }
+    // });
+
+    var search = 'https://api.twitter.com/1.1/search/tweets.json?q='
+               + req.params.searchTerm + '&count=180';
     client.get(search, function(error, tweets, response) {  
         if (!error) {
+            console.log("Number of tweets: " + tweets.statuses.length);
             for (var i = 0; i < tweets.statuses.length; i++) {
                 let text = tweets.statuses[i].text;
                 // Clean up text (remove mentions, hashtags and links)
