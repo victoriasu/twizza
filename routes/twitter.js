@@ -1,59 +1,58 @@
 var express = require('express');
 var router = express.Router();
 
-var twitter = require('twitter');
 var config = require('./../config.json');
 
 var sentiment = require('sentiment');
 var twitterText = require('twitter-text');
 
-var functionCalls = { positive: getPositiveTweets,
-                      negative: getNegativeTweets,
-                      all: getAllTweets
-                    };
+var Twitter = require('node-tweet-stream');
 
+var embeddedStr = '';
+var count = 0;
 router.get('/:searchTerm', function(req, res, next) {
-    var client = new twitter ({
+    t = new Twitter({
         consumer_key: config.twitter_consumer_key,
         consumer_secret: config.twitter_consumer_secret,
-        access_token_key: config.twitter_access_token_key,
-        access_token_secret: config.twitter_access_token_secret
-    });
+        token: config.twitter_access_token_key,
+        token_secret: config.twitter_access_token_secret
+    })
+    
+    t.on('tweet', function (tweet) {
+        //console.log('tweet received', tweet);
+        console.log('Count: ' + count);
 
-    // var search = req.params.searchTerm;
-    // client.get('search/tweets', {q: search}, function(error, tweets, response) {  
-    //     if (!error) {
-    //         console.log(tweets.statuses.length);
-    //         for (var i = 0; i < tweets.statuses.length; i++) {
-    //             let text = tweets.statuses[i].text;
-    //             // Clean up text (remove mentions, hashtags and links)
-    //             tweets.statuses[i].clean_text = removeLinks (text);
-    //             // Get sentiment of cleaned text
-    //             tweets.statuses[i].sentiment_value = sentiment(tweets.statuses[i].clean_text).score;
-    //         }
-    //         // Call pos, neg, or all function
-    //         var embeddedStr = functionCalls[req.query.sentiment](tweets);
-    //         res.render('index', { twitterResults: embeddedStr })
-    //     }
-    // });
+        let text = tweet.text;
+        // Clean up text (remove mentions, hashtags and links)
+        tweet.clean_text = removeLinks (text);
+        // Get sentiment of cleaned text
+        tweet.sentiment_value = sentiment(tweet.clean_text).score;
 
-    var search = 'https://api.twitter.com/1.1/search/tweets.json?q='
-               + req.params.searchTerm + '&count=180';
-    client.get(search, function(error, tweets, response) {  
-        if (!error) {
-            console.log("Number of tweets: " + tweets.statuses.length);
-            for (var i = 0; i < tweets.statuses.length; i++) {
-                let text = tweets.statuses[i].text;
-                // Clean up text (remove mentions, hashtags and links)
-                tweets.statuses[i].clean_text = removeLinks (text);
-                // Get sentiment of cleaned text
-                tweets.statuses[i].sentiment_value = sentiment(tweets.statuses[i].clean_text).score;
-            }
-            // Call pos, neg, or all function
-            var embeddedStr = functionCalls[req.query.sentiment](tweets);
-            res.render('index', { twitterResults: embeddedStr })
+        // TODO: Tokenize tweet
+        // TODO: Add to DB
+
+        if (req.query.sentiment == 'positive' && tweet.sentiment_value >= 0) {
+            count++;
+            embeddedStr += getEmbedString(tweet);
+        } else if (req.query.sentiment == 'negative' && tweet.sentiment_value < 0) {
+            count++;
+            embeddedStr += getEmbedString(tweet);
+        } else if (req.query.sentiment == 'all') {
+            count++;
+            embeddedStr += getEmbedString(tweet);
         }
-    });
+        
+        if (count >= 500) {
+            t.untrack(req.params.searchTerm);
+            res.render('index', { twitterResults: embeddedStr });
+        }
+    })
+    
+    t.on('error', function (err) {
+        console.log('Oh no');
+    })
+    
+    t.track(req.params.searchTerm);
 });
 
 function removeLinks (text) {
@@ -70,34 +69,6 @@ function removeLinks (text) {
         text = text.replace(urls[i], ' ');
     }
     return text;
-}
-
-function getPositiveTweets (tweets) {
-    let str = ''; 
-    for (var i = 0; i < tweets.statuses.length; i++) {
-        if (tweets.statuses[i].sentiment_value >= 0) {
-            str += getEmbedString(tweets.statuses[i]);
-        }
-    }
-    return str;
-}
-
-function getNegativeTweets (tweets) {
-    let str = ''; 
-    for (var i = 0; i < tweets.statuses.length; i++) {
-        if (tweets.statuses[i].sentiment_value < 0) {
-            str += getEmbedString(tweets.statuses[i]);
-        }
-    }
-    return str;
-}
-
-function getAllTweets (tweets) {
-    let str = ''; 
-    for (var i = 0; i < tweets.statuses.length; i++) {
-        str += getEmbedString(tweets.statuses[i]);
-    }
-    return str;
 }
 
 function getEmbedString (tweet) {
