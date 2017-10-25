@@ -19,7 +19,9 @@ var tweetObj = {};
     // TODO: Not getting to index.js router.put ('sentiment') section
     // This might not be the right address (https or http?)
     //var url = 'https://pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/positive';
-    var url = 'http://pizza-tweets-854907392.us-west-2.elb.amazonaws.com/positive';
+    //var url = 'http://pizza-tweets-854907392.us-west-2.elb.amazonaws.com/positive';
+    // TODO: Load balancer not connected to instances or instances not healthys
+    var url = 'http://54.245.40.52:3000/positive';
     
     t.on('tweet', function (tweet) {
         //console.log('tweet received', tweet);
@@ -37,7 +39,7 @@ var tweetObj = {};
         }
         request(options, (err, res) => {
             if (err) { throw err; }
-            console.log(res);
+            //console.log(res);
         });
 
         if (count >= 50) {
