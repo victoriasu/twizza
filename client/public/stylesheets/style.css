@@ -1,6 +1,6 @@
 h1 {
     font-family: 'Encode Sans Semi Condensed', serif;
-    font-size: 60px;
+    font-size: 30px;
     text-align: center;
     color: #52B0E0;
 }
@@ -12,8 +12,8 @@ h1 {
 
 body {
     font-family: 'Encode Sans Semi Condensed', serif;
-    font-size: 18px;
-    margin: 20px;
+    font-size: 15px;
+    margin: 10px;
 }
 
 p {
@@ -45,13 +45,21 @@ p {
     color: #52B0E0;
 }
 
+/* ALL RESULTS STYLE */
+.results {
+    background-image: url('../images/pizza-flow.gif');
+    background-size: repeat;
+    padding: 3rem;
+    height: 475px;
+}
+
 /* TWITTER RESULTS STYLE */
 .results_container {
     float: left;
     width: 40%;
     max-width: 40%;
     overflow-y: auto;
-    height: 700px;
+    height: 475px;
 }
 
 .word_container {

@@ -30,6 +30,11 @@ stream.once('open', function(fd) {
             stream.write(JSON.stringify(tweetObj));
             t.untrack('pizza');
             stream.end();
+            
+            fs.createReadStream('tweets.json').pipe(request.put('pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/'));
+            // fs.readFile('tweets.json', 'utf8', function(err, contents) {
+            //     console.log(contents);
+            // });
         }
     })
 
