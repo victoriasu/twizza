@@ -12,8 +12,9 @@ router.get('/', function(req, res, next) { // Doesn't work with router.put
 
 router.put('/:sentiment', function(req, res, next) {
     console.log("Sentiment: " + req.params.sentiment);
-    var tweet = {};
-    tweet.text = req.body.text;
+    var tweet = req.body;
+    //console.log(tweet);
+
     // Clean up text (remove mentions, hashtags and links)
     tweet.clean_text = removeLinks (tweet.text);
     // Get sentiment of cleaned text
@@ -23,8 +24,10 @@ router.put('/:sentiment', function(req, res, next) {
     // TODO: Count words
     // TODO: Store word counts in DB
 
-    console.log(tweet);
-    res.end(); // instead of res.render();
+    //console.log(tweet);
+
+    // End response or send success so that load balancer knows this instance is healthy
+    res.end(); // 
     // res.status(200);
 });
 
