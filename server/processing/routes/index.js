@@ -36,11 +36,11 @@ function removeLinks (text) {
     for (var i = 0; i < mentions.length; i++) {
         text = text.replace('@' + mentions[i], ' ');
     }
-    let hashtags = twitterText.extractHashtags(text);
+    var hashtags = twitterText.extractHashtags(text);
     for (var i = 0; i < mentions.length; i++) {
         text = text.replace('#' + hashtags[i], ' ');
     }
-    let urls = twitterText.extractUrls(text);
+    var urls = twitterText.extractUrls(text);
     for (var i = 0; i < mentions.length; i++) {
         text = text.replace(urls[i], ' ');
     }
