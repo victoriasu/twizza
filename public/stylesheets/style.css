@@ -3,6 +3,11 @@ h1 {
     font-size: 60px;
 }
 
+h1 {
+    font-family: 'Encode Sans Semi Condensed', serif;
+    font-size: 30px;
+}
+
 body {
     font-family: 'Encode Sans Semi Condensed', serif;
     font-size: 18px;
@@ -74,5 +79,12 @@ p {
     width: 40%;
     max-width: 40%;
     overflow-y: auto;
+    height: 700px;
+}
+
+.word_container {
+    float: left;
+    width: 50%;
+    max-width: 50%;
     height: 700px;
 }
