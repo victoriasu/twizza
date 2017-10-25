@@ -43,7 +43,7 @@ router.get('/:searchTerm', function(req, res, next) {
         }
         
         if (count >= 500) {
-            t.untrack(req.params.searchTerm);
+            t.untrack('pizza');
             res.render('index', { twitterResults: embeddedStr });
         }
     })
@@ -52,7 +52,7 @@ router.get('/:searchTerm', function(req, res, next) {
         console.log('Oh no');
     })
     
-    t.track(req.params.searchTerm);
+    t.track('pizza');
 });
 
 function removeLinks (text) {
@@ -64,7 +64,7 @@ function removeLinks (text) {
     for (var i = 0; i < mentions.length; i++) {
         text = text.replace('#' + hashtags[i], ' ');
     }
-    let urls = twitterText.extractUrls(text);
+    let urlsa = twitterText.extractUrls(text);
     for (var i = 0; i < mentions.length; i++) {
         text = text.replace(urls[i], ' ');
     }
