@@ -4,11 +4,11 @@ var twitter = require('node-tweet-stream');
 var request = require('request');
 var fs = require('fs');
 
-var stream = fs.createWriteStream('tweets.json');
+//var stream = fs.createWriteStream('tweets.json');
 var count = 0;
 
 var tweetObj = {};
-stream.once('open', function(fd) {
+//stream.once('open', function(fd) {
     t = new twitter({
         consumer_key: config.twitter_consumer_key,
         consumer_secret: config.twitter_consumer_secret,
@@ -21,17 +21,21 @@ stream.once('open', function(fd) {
         console.log('Count: ' + count);
         count++;
 
+        // TODO
+        var stream = tweet;
+
         // TODO: Send the tweet to the Load Balancer
         // The entire object or just the text, user.screen_name, and id_str
         // How do I send each time - request(tweet).pipe('pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/pizza')
         // Currently storing in tweets.json
-        tweetObj[tweet.id_str] = {text: tweet.text, user: tweet.user.screen_name};    
+        //tweetObj[tweet.id_str] = {text: tweet.text, user: tweet.user.screen_name};    
+        
+        request.put({url: 'https://pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/process/', body: tweet});
         if (count >= 5) {
-            stream.write(JSON.stringify(tweetObj));
+            //stream.write(JSON.stringify(tweetObj));
             t.untrack('pizza');
-            stream.end();
-            
-            fs.createReadStream('tweets.json').pipe(request.put('pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/'));
+            //stream.end();
+            //fs.createReadStream('tweets.json').pipe(request.put('https://pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/positive'));
             // fs.readFile('tweets.json', 'utf8', function(err, contents) {
             //     console.log(contents);
             // });
@@ -39,8 +43,8 @@ stream.once('open', function(fd) {
     })
 
     t.on('error', function (err) {
-        console.log('Oh no');
+        console.log('ERROR: ' + err);
     })
 
     t.track('pizza');
-});
+//});
