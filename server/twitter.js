@@ -22,15 +22,15 @@ var tweetObj = {};
         count++;
 
         // TODO
-        var stream = tweet;
+        //var stream = tweet;
 
         // TODO: Send the tweet to the Load Balancer
         // The entire object or just the text, user.screen_name, and id_str
-        // How do I send each time - request(tweet).pipe('pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/pizza')
-        // Currently storing in tweets.json
+
         //tweetObj[tweet.id_str] = {text: tweet.text, user: tweet.user.screen_name};    
         
-        request.put({url: 'https://pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/process/', body: tweet});
+        request.put({url: 'https://pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/positive', options: {body: tweet}});
+        
         if (count >= 5) {
             //stream.write(JSON.stringify(tweetObj));
             t.untrack('pizza');
