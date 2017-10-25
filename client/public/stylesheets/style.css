@@ -1,12 +1,14 @@
 h1 {
     font-family: 'Encode Sans Semi Condensed', serif;
     font-size: 60px;
+    text-align: center;
+    color: #52B0E0;
 }
 
-h1 {
+/* h1 {
     font-family: 'Encode Sans Semi Condensed', serif;
     font-size: 30px;
-}
+} */
 
 body {
     font-family: 'Encode Sans Semi Condensed', serif;
@@ -18,59 +20,29 @@ p {
     font-size: 16px;
 }
 
-/* SEARCH FIELD STYLES */
-.search_container {
+/* .buttonContainer {
     float: left;
-    margin-right: 10px;
-}
-
-.wrap {
-    float: center;
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.searchTextInput {
-    margin: 0;
-    padding: 5px 15px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size:14px;
-    color:#666;
-    border-top-left-radius: 5px 5px;
-    border-bottom-left-radius: 5px 5px;
-    border-top-right-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-    border:1px solid #000000;
     width: 100%;
-}
-.searchButton {
-    margin: 0;
-    padding: 5px 7px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    font-weight:bold;
-    outline: none;
-    cursor: pointer;
+} */
+
+.sButton {
+    background-color: #52B0E0;
+    border: 2px solid #52B0E0;
     text-align: center;
-    text-decoration: none;
+    font-weight:bold;
     color: #ffffff;
-    border: solid 1px #000000; border-right: solid 1px #000000;
-    background: #000000;
-    border-top-right-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-}
-.searchButton:hover {
-    text-decoration: none;
-    background: #283747;
+    padding: 5px 7px;
+    float: left;
+    width: 33%;
+    height: 100%;
+    margin-left: 2px;
 }
 
-.searchButton::-moz-focus-inner {
-    border: 0;
+.sButton:hover {
+    text-decoration: none;
+    background: #FFFFFF;
+    border: 2px solid #52B0E0;
+    color: #52B0E0;
 }
 
 /* TWITTER RESULTS STYLE */

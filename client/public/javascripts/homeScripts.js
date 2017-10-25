@@ -5,19 +5,25 @@ window.onload = function() {
     // Get search elements
     var searchTerm = document.getElementById("searchField");
     const form = document.querySelector('form');
-    var button = document.getElementById('searchButton');
+    var posButton = document.getElementById('pos');
+    var negButton = document.getElementById('neg');
+    var allButton = document.getElementById('all');
 
-    // URL to redirect page to
-    function getSearchURL() {
-        searchURL = 'http://' + hostname + ':' + port + '/search/' + searchTerm.value;
-        console.log(searchURL);
-        return searchURL;
-    }
-
-    // Go to URL when button is clicked
-    button.addEventListener('click', (e) => {
+    posButton.addEventListener('click', (e) => {
         e.preventDefault();
-        form.action = getSearchURL();
+        form.action = 'http://' + hostname + ':' + port + '/positive';
+        form.submit();
+    })
+
+    negButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        form.action = 'http://' + hostname + ':' + port + '/negative';
+        form.submit();
+    })
+
+    allButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        form.action = 'http://' + hostname + ':' + port;
         form.submit();
     })
 }

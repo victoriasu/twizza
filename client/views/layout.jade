@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title= title
+        title Twizza
         
         link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:200')
         link(rel='stylesheet', href='/stylesheets/style.css')
@@ -9,19 +9,14 @@ html
             include ../public/javascripts/homeScripts.js
 
     body
-        h1= title
-        
-        form(id='tfnewsearch')
-            .search_container
-                input(type='text', id='searchField', class='searchTextInput', size='51', maxlength='50', value='')
-                br
-                input(id='pos', type='radio', name='sentiment', value='positive')
-                label(for='pos') Positive tweets only
-                input(id='neg', type='radio', name='sentiment', value='negative')
-                label(for='neg') Negative tweets only
-                input(id='all', type='radio', name='sentiment', value='all', checked)
-                label(for='all') All tweets
-            .search_container
-                input(id='searchButton', type='submit', value='SEARCH', class='searchButton')
+        h1
+            img.image(src='https://i.imgur.com/hRfGOXm.jpg', width='70')
+            | Twizza
+            img.image(src='https://i.imgur.com/hRfGOXm.jpg', width='70')
+        //- .buttonContainer
+        form(id='sentimentButtons')
+            input(id='pos', type='submit', value='GOOD', class='sButton')
+            input(id='neg', type='submit', value='BAD', class='sButton')
+            input(id='all', type='submit', value='ALL', class='sButton')
         
         block content
