@@ -27,9 +27,9 @@ router.put('/:sentiment', function(req, res, next) {
     console.log(req.body);
     var embeddedStr = '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">I, literally, love pizza! When ordering <a href="https://twitter.com/PapaJohnsHousTx?ref_src=twsrc%5Etfw">@PapaJohnsHousTx</a> on game days, enter code ALTUVE for a chance to meet me! <a href="https://t.co/AWjRMjVXkH">pic.twitter.com/AWjRMjVXkH</a></p>&mdash; Jose Altuve (@JoseAltuve27) <a href="https://twitter.com/JoseAltuve27/status/922649377411420161?ref_src=twsrc%5Etfw">October 24, 2017</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
     // req.body
-    // res.end();
+    res.end(); // instead of res.render();
     // res.status(200);
-    res.render('index', { title: 'Twizza', twitterResults: embeddedStr });
+    //res.render('index', { title: 'Twizza', twitterResults: embeddedStr });
 });
 
 function removeLinks (text) {
