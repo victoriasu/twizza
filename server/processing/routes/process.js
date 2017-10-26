@@ -6,7 +6,17 @@ var twitterText = require('twitter-text');
 var natural = require('natural');
 var tokenizer = new natural.WordTokenizer();
 
+var config = require('./../../../config.json');
+var mysql = require('mysql');
+var pizzaTweetsCon = mysql.createConnection({
+    host: 'pizzatweets.cfdpyrxr6oll.us-west-2.rds.amazonaws.com',
+    user: config.mysqluser,
+    password: config.mysqlpass,
+    database: 'pizzatweets'
+});
+
 router.get('/', function(req, res, next) {
+    pizzaTweetsCon.connect();
     console.log("Here");
     var embeddedStr = '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">5-year-old: We don&#39;t have pizza enough.<br><br>Me: We had it three days in a row.<br><br>5: I know.</p>&mdash; James Breakwell (@XplodingUnicorn) <a href="https://twitter.com/XplodingUnicorn/status/922829170664792064?ref_src=twsrc%5Etfw">October 24, 2017</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
     res.render('index', { title: 'Twizza', twitterResults: embeddedStr });
@@ -21,26 +31,33 @@ router.put('/:sentiment', function(req, res, next) {
     tweet.clean_text = removeLinks (tweet.text);
     // Get sentiment of cleaned text
     tweet.sentiment_value = sentiment(tweet.clean_text).score;
-
-    // TODO: Store each tweet in DB
-
-    // TODO: Count words
-    // Tokenize
-    console.log(tweet.clean_text);
+    console.log(tweet);
+    
+    // Store tweet in database (table: tweets)
+    var post = {id: tweet.id, user: tweet.user, sent: tweet.sentiment_value};
+    var query = pizzaTweetsCon.query('INSERT INTO `tweets` SET ?', post, function (error, results, fields) {
+        if (error) console.log(error);
+        if (error) throw error;
+    });
+    console.log(query.sql);
+    
+    // Store word count in database (table: wordcount)
     var tokenized = tokenizer.tokenize(tweet.clean_text);
-    console.log(tokenized);
+    // Remove retweet indicator
     if (tokenized[0] === 'RT') {
         tokenized.splice(0, 1);
     }
-    console.log(tokenized);
-
-    
-    // TODO: Store word counts in DB
-
-    //console.log(tweet);
+    for (let i = 0; i < tokenized.length; i++) {
+        pizzaTweetsCon.query({
+            sql: "INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[i] + "' ," +"1) ON DUPLICATE KEY UPDATE word = '" + tokenized[i] + "' , count = count + 1",
+        }, function (error, results, fields) {
+            if (error) console.log(error);
+            if (error) throw error;
+        });
+    }
 
     // End response or send success so that load balancer knows this instance is healthy
-    res.end(); // 
+    res.end();
     // res.status(200);
 });
 
