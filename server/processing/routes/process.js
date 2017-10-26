@@ -3,8 +3,10 @@ var router = express.Router();
 
 var sentiment = require('sentiment');
 var twitterText = require('twitter-text');
+var natural = require('natural');
+var tokenizer = new natural.WordTokenizer();
 
-router.get('/', function(req, res, next) { // Doesn't work with router.put
+router.get('/', function(req, res, next) {
     console.log("Here");
     var embeddedStr = '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">5-year-old: We don&#39;t have pizza enough.<br><br>Me: We had it three days in a row.<br><br>5: I know.</p>&mdash; James Breakwell (@XplodingUnicorn) <a href="https://twitter.com/XplodingUnicorn/status/922829170664792064?ref_src=twsrc%5Etfw">October 24, 2017</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
     res.render('index', { title: 'Twizza', twitterResults: embeddedStr });
@@ -21,7 +23,18 @@ router.put('/:sentiment', function(req, res, next) {
     tweet.sentiment_value = sentiment(tweet.clean_text).score;
 
     // TODO: Store each tweet in DB
+
     // TODO: Count words
+    // Tokenize
+    console.log(tweet.clean_text);
+    var tokenized = tokenizer.tokenize(tweet.clean_text);
+    console.log(tokenized);
+    if (tokenized[0] === 'RT') {
+        tokenized.splice(0, 1);
+    }
+    console.log(tokenized);
+
+    
     // TODO: Store word counts in DB
 
     //console.log(tweet);
@@ -37,11 +50,11 @@ function removeLinks (text) {
         text = text.replace('@' + mentions[i], ' ');
     }
     var hashtags = twitterText.extractHashtags(text);
-    for (var i = 0; i < mentions.length; i++) {
+    for (var i = 0; i < hashtags.length; i++) {
         text = text.replace('#' + hashtags[i], ' ');
     }
     var urls = twitterText.extractUrls(text);
-    for (var i = 0; i < mentions.length; i++) {
+    for (var i = 0; i < urls.length; i++) {
         text = text.replace(urls[i], ' ');
     }
     return text;

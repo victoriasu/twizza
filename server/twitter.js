@@ -12,8 +12,9 @@ t = new twitter({
     token_secret: config.twitter_access_token_secret
 })
 
-// TODO: Not getting to index.js router.put ('sentiment') section
+// DONE: Not getting to index.js router.put ('sentiment') section
 // Load balancer not connected to instances or instances not healthy
+// Had to open port 80 in security groups of load balancer
 //var url = 'https://pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/positive';
 //var url = 'http://pizza-tweets-854907392.us-west-2.elb.amazonaws.com/positive';
 var url = 'http://localhost:3000/positive';
@@ -23,11 +24,10 @@ var tweetToSend = {};
 
 t.on('tweet', function (tweet) {
     //console.log('tweet received', tweet);
-    //console.log('Count: ' + count);
+    console.log('Count: ' + count);
     count++;
 
-    // Send the tweet to the Load Balancer
-    // Just the text, user.screen_name, and id_str
+    // Send the tweet text, user.screen_name, and id_str to the Load Balancer
     tweetToSend = {id: tweet.id_str, user: tweet.user.screen_name, text: tweet.text};
     var options = {
         method: 'put',
