@@ -24,8 +24,8 @@ var tweetToSend = {};
 
 t.on('tweet', function (tweet) {
     //console.log('tweet received', tweet);
-    console.log('Count: ' + count);
-    count++;
+    // console.log('Count: ' + count);
+    // count++;
 
     // Send the tweet text, user.screen_name, and id_str to the Load Balancer
     tweetToSend = {id: tweet.id_str, user: tweet.user.screen_name, text: tweet.text};
@@ -36,13 +36,13 @@ t.on('tweet', function (tweet) {
         url: url
     }
     request(options, (err, res) => {
-        if (err) { throw err; }
+        if (err) throw err;
         //console.log(res);
     });
 
-    if (count >= 50) {
-        t.untrack('pizza');
-    }
+    // if (count >= 50) {
+    //     t.untrack('pizza');
+    // }
 })
 
 t.on('error', function (err) {
