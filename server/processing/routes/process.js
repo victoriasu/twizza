@@ -5,6 +5,7 @@ var sentiment = require('sentiment');
 var twitterText = require('twitter-text');
 var natural = require('natural');
 var tokenizer = new natural.WordTokenizer();
+var nlp = require('compromise');
 
 var config = require('./../../../config.json');
 var mysql = require('mysql');
@@ -55,6 +56,10 @@ router.put('/:sentiment', function(req, res, next) {
             if (error) throw error;
         });
     }
+
+    // Do NLP
+    console.log(tweet.clean_text);
+    console.log(nlp(tweet.clean_text).sentences().toPastTense());
 
     // End response or send success so that load balancer knows this instance is healthy
     res.end();

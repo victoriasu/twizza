@@ -17,8 +17,8 @@ t = new twitter({
 // Had to open port 80 in security groups of load balancer
 //var url = 'https://pizza-tweets-854907392.us-west-2.elb.amazonaws.com:80/positive';
 //var url = 'http://pizza-tweets-854907392.us-west-2.elb.amazonaws.com/positive';
-var url = 'http://localhost:3000/positive';
-//var url = 'http://54.245.40.52:3000/positive';
+//var url = 'http://localhost:3000/positive';
+var url = 'http://54.213.228.143:3000/positive';
 
 var tweetToSend = {};
 
