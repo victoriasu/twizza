@@ -11,19 +11,19 @@ window.onload = function() {
 
     posButton.addEventListener('click', (e) => {
         e.preventDefault();
-        form.action = 'http://' + hostname + ':' + port + '/positive';
+        form.action = '/positive';
         form.submit();
     })
 
     negButton.addEventListener('click', (e) => {
         e.preventDefault();
-        form.action = 'http://' + hostname + ':' + port + '/negative';
+        form.action = '/negative';
         form.submit();
     })
 
     allButton.addEventListener('click', (e) => {
         e.preventDefault();
-        form.action = 'http://' + hostname + ':' + port;
+        form.action = '/';
         form.submit();
     })
 }
