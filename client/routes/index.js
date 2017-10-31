@@ -33,7 +33,6 @@ router.get('/', function(req, res, next) {
             }, function (error, results, fields) {
                 if (error) console.log(error);
                 if (error) throw error;
-                console.log(results);
                 words = results;
                 callback();
             });
@@ -68,7 +67,6 @@ router.get('/:sentiment', function(req, res, next) {
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
-                    console.log(results);
                     words = results;
                     callback();
                 });
@@ -100,7 +98,6 @@ router.get('/:sentiment', function(req, res, next) {
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
-                    console.log(results);
                     words = results;
                     callback();
                 });
