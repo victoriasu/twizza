@@ -9,8 +9,9 @@ block content
         .results
             .results_container
                 html !{twitterResults}
-            //- .word_container
-            //-     h2 Most Tweeted Words
-            //-     p
-            //-         -for (var w = 0; w < frequentWords.length; w++)
-            //-             | #{frequentWords[w]}
+            .word_container
+                h2 Most Tweeted Words
+                p
+                    -for (var w = 0; w < frequentWords.length; w++)
+                        | #{frequentWords[w].word}
+                        br
