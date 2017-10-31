@@ -115,7 +115,7 @@ function getEmbedString (results) {
         str += '<blockquote class="twitter-tweet" data-lang="en">'
         + '<a href="'
         + 'https://twitter.com/' + results[i].user 
-        + '/status/' + results[i].id + '?ref_src=twsrc%5Etfw'
+        + '/status/' + results[i].twitterid + '?ref_src=twsrc%5Etfw'
         + '"></a>'
         + '</blockquote> '
         + '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
