@@ -34,7 +34,7 @@ router.put('/:sentiment', function(req, res, next) {
     console.log(tweet);
     
     // Store tweet in database (table: tweets)
-    var post = {id: tweet.id, user: tweet.user, sent: tweet.sentiment_value};
+    var post = {id: null, twitterid: tweet.id, user: tweet.user, sent: tweet.sentiment_value};
     var query = pizzaTweetsCon.query('INSERT INTO `tweets` SET ?', post, function (error, results, fields) {
         if (error) console.log(error);
         if (error) throw error;
@@ -49,7 +49,7 @@ router.put('/:sentiment', function(req, res, next) {
     }
     for (let i = 0; i < tokenized.length; i++) {
         pizzaTweetsCon.query({
-            sql: "INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[i] + "' ," +"1) ON DUPLICATE KEY UPDATE word = '" + tokenized[i] + "' , count = count + 1",
+            sql: "INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[i] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[i] + "' , count = count + 1",
         }, function (error, results, fields) {
             if (error) console.log(error);
             if (error) throw error;

@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
     async.parallel([
         function(callback) {
             pizzaTweetsCon.query({
-                sql: "SELECT * from tweets",
+                sql: "SELECT * from tweets ORDER BY id DESC LIMIT 100",
             }, function (error, results, fields) {
                 if (error) console.log(error);
                 if (error) throw error;
@@ -52,7 +52,7 @@ router.get('/:sentiment', function(req, res, next) {
         async.parallel([
             function(callback) {
                 pizzaTweetsCon.query({
-                    sql: "SELECT * from tweets WHERE `tweets`.`sent` >= 0",
+                    sql: "SELECT * from tweets ORDER BY id DESC LIMIT 100 WHERE `tweets`.`sent` >= 0",
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
@@ -83,7 +83,7 @@ router.get('/:sentiment', function(req, res, next) {
         async.parallel([
             function(callback) {
                 pizzaTweetsCon.query({
-                    sql: "SELECT * from tweets WHERE `tweets`.`sent` < 0",
+                    sql: "SELECT * from tweets ORDER BY id DESC LIMIT 100 WHERE `tweets`.`sent` < 0",
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
@@ -111,7 +111,7 @@ router.get('/:sentiment', function(req, res, next) {
 
 function getEmbedString (results) {
     let str = '';
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < results.length; i++) {
         str += '<blockquote class="twitter-tweet" data-lang="en">'
         + '<a href="'
         + 'https://twitter.com/' + results[i].user 
