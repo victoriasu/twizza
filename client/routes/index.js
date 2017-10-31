@@ -83,7 +83,7 @@ router.get('/:sentiment', function(req, res, next) {
         async.parallel([
             function(callback) {
                 pizzaTweetsCon.query({
-                    sql: "SELECT * from tweets ORDER BY id DESC LIMIT 100 WHERE `tweets`.`sent` < 0",
+                    sql: "SELECT * from tweets WHERE `tweets`.`sent` < 0 ORDER BY id DESC LIMIT 100",
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
