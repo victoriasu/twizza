@@ -59,8 +59,9 @@ router.put('/:sentiment', function(req, res, next) {
 
     // Do NLP
     console.log(tweet.clean_text);
+    let getPeopleAndCounts = nlp(tweet.clean_text).people().out('freq');
     console.log(nlp(tweet.clean_text).sentences().toPastTense());
-
+    console.log(getPeopleAndCounts);
     // End response or send success so that load balancer knows this instance is healthy
     res.end();
     // res.status(200);
