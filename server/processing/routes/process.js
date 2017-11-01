@@ -13,7 +13,7 @@ var tweets = [];
 var words = {};
 var totalWords100 = 0;
 
-var config = require('./../../../config.json');
+var config = require('./../config.json');
 var mysql = require('mysql');
 var pizzaTweetsCon = mysql.createConnection({
     host: 'pizzatweets.cfdpyrxr6oll.us-west-2.rds.amazonaws.com',
