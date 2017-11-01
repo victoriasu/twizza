@@ -112,7 +112,7 @@ router.put('/:sentiment', function(req, res, next) {
                             pizzaTweetsCon.query({
                                 sql: "INSERT INTO `last100count` (word, count, percent) VALUES('" + word + "' ," 
                                     + words[word][0] + " ," + words[word][1] + ") ON DUPLICATE KEY UPDATE word = '" + word 
-                                    + "' , count = count + " + words[word][0] + ", percent = percent + " + words[word][1] + ")",
+                                    + "' , count = count + " + words[word][0] + ", percent = percent + " + words[word][1],
                             }, function (error, results, fields) {
                                 if (error) console.log(error);
                                 if (error) throw error;
