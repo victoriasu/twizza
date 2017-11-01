@@ -51,12 +51,11 @@ router.put('/:sentiment', function(req, res, next) {
     
     tweets.push(tweet);
 
-    if (tweetCount % 10 === 0) {
+    if (tweetCount % 50 === 0) {
         console.log('tweetCount % 10 === 0');
-        console.log('There are ' + tweets.length + ' tweets');
         async.series([
             function(callback) {
-                totalWords100 = 0;
+                totalWords100 = 0;  
                 // Clear the previous 100 tweets' data from last100count table
                 pizzaTweetsCon.query({
                     sql: "TRUNCATE TABLE last100count",
@@ -68,7 +67,6 @@ router.put('/:sentiment', function(req, res, next) {
                 });
             },
             function(callback) {
-                console.log('Time to loop');
                 for (let t = 0; t < tweets.length; t++) {
                     // Loop through words in this tweet and update words dictionary
                     var tokenized = tokenizer.tokenize(tweets[t].clean_text);
@@ -90,9 +88,9 @@ router.put('/:sentiment', function(req, res, next) {
                         }, function (error, results, fields) {
                             if (error) console.log(error);
                             if (error) throw error;
+                            console.log("INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[j] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[j] + "' , count = count + 1");
                         });
                     }
-                    console.log('t = ' + t);
                 }
                 callback();
             },
@@ -103,8 +101,6 @@ router.put('/:sentiment', function(req, res, next) {
                         function(callback) {
                             // Calculate percentage of word occurrence in last 100 tweets
                             words[word][1] = words[word][0] / totalWords100;
-                            console.log('percent = ' + words[word][0] + '/' + totalWords100 + ' = ' + words[word][1]);
-                            console.log('word: ' + word);
                             callback();
                         },
                         function(callback) {
@@ -116,8 +112,9 @@ router.put('/:sentiment', function(req, res, next) {
                             }, function (error, results, fields) {
                                 if (error) console.log(error);
                                 if (error) throw error;
-                                console.log(fields);
-                                console.log(results);
+                                console.log("INSERT INTO `last100count` (word, count, percent) VALUES('" + word + "' ," 
+                                            + words[word][0] + " ," + words[word][1] + ") ON DUPLICATE KEY UPDATE word = '" + word 
+                                            + "' , count = count + " + words[word][0] + ", percent = percent + " + words[word][1]);
                                 callback();
                             });
                         }
