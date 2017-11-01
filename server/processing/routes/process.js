@@ -127,6 +127,8 @@ router.put('/:sentiment', function(req, res, next) {
         function(err, results) {
             if (error) console.log(error);
             console.log('async done');
+            words = {};
+            tweets = [];
         });
     }
     // Do NLP
