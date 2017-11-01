@@ -48,6 +48,19 @@ router.put('/:sentiment', function(req, res, next) {
         if (error) throw error;
     });
     console.log(query.sql);
+
+    // Update wordcount table with tokenised words and their count
+    var tokenized = tokenizer.tokenize(tweet.clean_text);
+    if (tokenized[0] === 'RT') tokenized.splice(0, 1); // Remove retweet indicator
+    for (let i = 0; i < tokenized.length; i++) {
+        pizzaTweetsCon.query({
+            sql: "INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[i] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[i] + "' , count = count + 1",
+        }, function (error, results, fields) {
+            if (error) console.log(error);
+            if (error) throw error;
+            console.log("INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[i] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[i] + "' , count = count + 1");
+        });
+    }
     
     tweets.push(tweet);
 
@@ -70,10 +83,7 @@ router.put('/:sentiment', function(req, res, next) {
                 for (let t = 0; t < tweets.length; t++) {
                     // Loop through words in this tweet and update words dictionary
                     var tokenized = tokenizer.tokenize(tweets[t].clean_text);
-                    // Remove retweet indicator
-                    if (tokenized[0] === 'RT') {
-                        tokenized.splice(0, 1);
-                    }
+                    if (tokenized[0] === 'RT') tokenized.splice(0, 1); // Remove retweet indicator
                     for (let j = 0; j < tokenized.length; j++) {
                         totalWords100++;
                         if (words.hasOwnProperty(tokenized[j])) {
@@ -82,14 +92,6 @@ router.put('/:sentiment', function(req, res, next) {
                         else {
                             words[tokenized[j]] = [1, 0];
                         }
-                        // Update wordcount table with tokenised words and their count
-                        pizzaTweetsCon.query({
-                            sql: "INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[j] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[j] + "' , count = count + 1",
-                        }, function (error, results, fields) {
-                            if (error) console.log(error);
-                            if (error) throw error;
-                            console.log("INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[j] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[j] + "' , count = count + 1");
-                        });
                     }
                 }
                 callback();
