@@ -6,7 +6,6 @@ var sentiment = require('sentiment');
 var twitterText = require('twitter-text');
 var natural = require('natural');
 var tokenizer = new natural.WordTokenizer();
-//var nlp = require('compromise');
 
 var tweetCount = 0;
 var tweets = [];
@@ -47,7 +46,7 @@ router.put('/:sentiment', function(req, res, next) {
         if (error) console.log(error);
         if (error) throw error;
     });
-    console.log(query.sql);
+    //console.log(query.sql);
 
     // Update wordcount table with tokenised words and their count
     var tokenized = tokenizer.tokenize(tweet.clean_text);
@@ -58,14 +57,14 @@ router.put('/:sentiment', function(req, res, next) {
         }, function (error, results, fields) {
             if (error) console.log(error);
             if (error) throw error;
-            console.log("INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[i] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[i] + "' , count = count + 1");
+            //console.log("INSERT INTO `wordcount` (word, count) VALUES('" + tokenized[i] + "' ," + "1) ON DUPLICATE KEY UPDATE word = '" + tokenized[i] + "' , count = count + 1");
         });
     }
     
     tweets.push(tweet);
 
     if (tweetCount % 50 === 0) {
-        console.log('tweetCount % 10 === 0');
+        //console.log('tweetCount % 10 === 0');
         async.series([
             function(callback) {
                 totalWords100 = 0;  
@@ -75,7 +74,7 @@ router.put('/:sentiment', function(req, res, next) {
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
-                    console.log('Table has been truncated');
+                    //console.log('Table has been truncated');
                     callback();
                 });
             },
@@ -97,7 +96,7 @@ router.put('/:sentiment', function(req, res, next) {
                 callback();
             },
             function(callback) {
-                console.log("Number of words: " + totalWords100);
+                //console.log("Number of words: " + totalWords100);
                 for (var word in words) {
                     async.series([
                         function(callback) {
@@ -114,9 +113,9 @@ router.put('/:sentiment', function(req, res, next) {
                             }, function (error, results, fields) {
                                 if (error) console.log(error);
                                 if (error) throw error;
-                                console.log("INSERT INTO `last100count` (word, count, percent) VALUES('" + word + "' ," 
-                                            + words[word][0] + " ," + words[word][1] + ") ON DUPLICATE KEY UPDATE word = '" + word 
-                                            + "' , count = count + " + words[word][0] + ", percent = percent + " + words[word][1]);
+                                //console.log("INSERT INTO `last100count` (word, count, percent) VALUES('" + word + "' ," 
+                                //            + words[word][0] + " ," + words[word][1] + ") ON DUPLICATE KEY UPDATE word = '" + word 
+                                //            + "' , count = count + " + words[word][0] + ", percent = percent + " + words[word][1]);
                                 callback();
                             });
                         }
@@ -126,7 +125,7 @@ router.put('/:sentiment', function(req, res, next) {
         ],
         function(err, results) {
             if (error) console.log(error);
-            console.log('async done');
+            //console.log('async done');
             words = {};
             tweets = [];
         });
