@@ -10,8 +10,21 @@ block content
             .results_container
                 html !{twitterResults}
             .word_container
-                h2 Most Tweeted Words
+                h2 Most Twizza'd Words
                 p
-                    -for (var w = 0; w < frequentWords.length; w++)
-                        | #{frequentWords[w].word}
+                    .list_container
+                        b
+                            | Of All Time
                         br
+                        br
+                        -for (var w = 0; w < wordsAllTime.length; w++)
+                            | #{wordsAllTime[w].word}
+                            br
+                    .list_container
+                        b
+                            | In Recent Tweets
+                        br
+                        br
+                        -for (var w = 0; w < wordsRecent.length; w++)
+                            | #{wordsRecent[w].word}
+                            br

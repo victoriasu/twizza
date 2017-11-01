@@ -14,7 +14,7 @@ h2 {
 
 body {
     font-family: 'Encode Sans Semi Condensed', serif;
-    font-size: 15px;
+    font-size: 20px;
     margin: 10px;
     color: #52B0E0;
     text-align: center;
@@ -77,4 +77,9 @@ p {
     padding-left: 20px;
     padding-right: 20px;
     background: white;
+}
+
+.list_container {
+    float: left;
+    width: 50%;
 }

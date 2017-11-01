@@ -12,9 +12,7 @@ var pizzaTweetsCon = mysql.createConnection({
 });
 
 router.get('/', function(req, res, next) {
-    // Display tweets
-    let str = '';
-    let words = null;
+    // Get tweets
     async.parallel([
         function(callback) {
             pizzaTweetsCon.query({
@@ -23,32 +21,39 @@ router.get('/', function(req, res, next) {
                 if (error) console.log(error);
                 if (error) throw error;
                 str = getEmbedString(results);
-                callback();
+                callback(null, str);
             });
         },
         function(callback) {
-            // Display words
+            // Get most used words of all time
             pizzaTweetsCon.query({
                 sql: "SELECT * from wordcount ORDER BY count DESC LIMIT 10",
             }, function (error, results, fields) {
                 if (error) console.log(error);
                 if (error) throw error;
-                words = results;
-                callback();
+                callback(null, results);
+            });
+        },
+        function(callback) {
+            // Get most used words of recent
+            pizzaTweetsCon.query({
+                sql: "SELECT * from last100count ORDER BY count DESC LIMIT 10",
+            }, function (error, results, fields) {
+                if (error) console.log(error);
+                if (error) throw error;
+                callback(null, results);
             });
         }
-    ], function(err) {
+    ], function(err, results) {
         if (err) return next(err);
-        res.render('index', { title: 'Twizza', twitterResults: str, frequentWords: words });
+        res.render('index', { title: 'Twizza', twitterResults: results[0], wordsAllTime: results[1], wordsRecent: results[2] });
     });
 });
 
 
 router.get('/:sentiment', function(req, res, next) {
     if (req.params.sentiment == 'positive') {
-        // Display tweets
-        let str = '';
-        let words = null;
+        // Get tweets
         async.parallel([
             function(callback) {
                 pizzaTweetsCon.query({
@@ -57,29 +62,36 @@ router.get('/:sentiment', function(req, res, next) {
                     if (error) console.log(error);
                     if (error) throw error;
                     str = getEmbedString(results);
-                    callback();
+                    callback(null, str);
                 });
             },
             function(callback) {
-                // Display words
+                // Get most used words of all time
                 pizzaTweetsCon.query({
                     sql: "SELECT * from wordcount ORDER BY count DESC LIMIT 10",
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
-                    words = results;
-                    callback();
+                    callback(null, results);
+                });
+            },
+            function(callback) {
+                // Get most used words of recent
+                pizzaTweetsCon.query({
+                    sql: "SELECT * from last100count ORDER BY count DESC LIMIT 10",
+                }, function (error, results, fields) {
+                    if (error) console.log(error);
+                    if (error) throw error;
+                    callback(null, results);
                 });
             }
-        ], function(err) {
+        ], function(err, results) {
             if (err) return next(err);
-            res.render('index', { title: 'Twizza', twitterResults: str, frequentWords: words });
+            res.render('index', { title: 'Twizza', twitterResults: results[0], wordsAllTime: results[1], wordsRecent: results[2] });
         });
     }
     else if (req.params.sentiment == 'negative') {
-        // Display tweets
-        let str = '';
-        let words = null;
+        // Get tweets
         async.parallel([
             function(callback) {
                 pizzaTweetsCon.query({
@@ -88,23 +100,32 @@ router.get('/:sentiment', function(req, res, next) {
                     if (error) console.log(error);
                     if (error) throw error;
                     str = getEmbedString(results);
-                    callback();
+                    callback(null, str);
                 });
             },
             function(callback) {
-                // Display words
+                // Get most used words of all time
                 pizzaTweetsCon.query({
                     sql: "SELECT * from wordcount ORDER BY count DESC LIMIT 10",
                 }, function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) throw error;
-                    words = results;
-                    callback();
+                    callback(null, results);
+                });
+            },
+            function(callback) {
+                // Get most used words of recent
+                pizzaTweetsCon.query({
+                    sql: "SELECT * from last100count ORDER BY count DESC LIMIT 10",
+                }, function (error, results, fields) {
+                    if (error) console.log(error);
+                    if (error) throw error;
+                    callback(null, results);
                 });
             }
-        ], function(err) {
+        ], function(err, results) {
             if (err) return next(err);
-            res.render('index', { title: 'Twizza', twitterResults: str, frequentWords: words });
+            res.render('index', { title: 'Twizza', twitterResults: results[0], wordsAllTime: results[1], wordsRecent: results[2] });
         });
     }
 });
