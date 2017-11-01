@@ -116,7 +116,8 @@ router.put('/:sentiment', function(req, res, next) {
                             }, function (error, results, fields) {
                                 if (error) console.log(error);
                                 if (error) throw error;
-                                console.log(sql);
+                                console.log(fields);
+                                console.log(results);
                                 callback();
                             });
                         }
