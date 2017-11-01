@@ -110,11 +110,13 @@ router.put('/:sentiment', function(req, res, next) {
                         function(callback) {
                             // Store this into database
                             pizzaTweetsCon.query({
-                                sql: "INSERT INTO `last100count` (word, count, percent) VALUES('" + word + "' ," + words[word][0] + " ," + words[word][1] + ")",
+                                sql: "INSERT INTO `last100count` (word, count, percent) VALUES('" + word + "' ," 
+                                    + words[word][0] + " ," + words[word][1] + ") ON DUPLICATE KEY UPDATE word = '" + word 
+                                    + "' , count = count + " + words[word][0] + ", percent = percent + " + words[word][1] + ")",
                             }, function (error, results, fields) {
                                 if (error) console.log(error);
                                 if (error) throw error;
-                                console.log('INSERTEDDDDDDDD into last100count');
+                                console.log(sql);
                                 callback();
                             });
                         }
