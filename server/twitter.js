@@ -12,7 +12,8 @@ t = new twitter({
     token_secret: config.twitter_access_token_secret
 })
 
-var url = 'http://elb-cab432-1649828362.us-west-2.elb.amazonaws.com/positive';
+// This is the DNS for first-lb on Vicky's account
+var url = 'http://first-lb-1765766302.us-west-2.elb.amazonaws.com/positive';
 //var url = 'http://localhost:3000/positive';
 
 var tweetToSend = {};

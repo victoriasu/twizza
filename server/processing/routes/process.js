@@ -21,8 +21,9 @@ var pizzaTweetsCon = mysql.createConnection({
     database: 'pizzatweets'
 });
 
+pizzaTweetsCon.connect(); //added this
 router.get('/', function(req, res, next) {
-    pizzaTweetsCon.connect();
+    //pizzaTweetsCon.connect(); //commented out
     console.log("Here");
     var embeddedStr = '<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">5-year-old: We don&#39;t have pizza enough.<br><br>Me: We had it three days in a row.<br><br>5: I know.</p>&mdash; James Breakwell (@XplodingUnicorn) <a href="https://twitter.com/XplodingUnicorn/status/922829170664792064?ref_src=twsrc%5Etfw">October 24, 2017</a></blockquote> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
     res.render('index', { title: 'Twizza', twitterResults: embeddedStr });
